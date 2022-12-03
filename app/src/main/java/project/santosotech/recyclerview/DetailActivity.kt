@@ -1,7 +1,6 @@
 package project.santosotech.recyclerview
 
 import android.os.Build
-import android.os.Build.VERSION
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,11 +24,7 @@ class DetailActivity : AppCompatActivity() {
         val tvDesc: TextView = findViewById(R.id.desc_detail)
         val imgHero: ImageView = findViewById(R.id.img_detail)
 
-        val hero = if (VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra(EXTRA_KEY, Hero::class.java)
-        }else{
-            intent.getParcelableExtra(EXTRA_KEY)
-        }
+        val hero = intent.getParcelableExtra(EXTRA_KEY, Hero::class.java)
 
         tvName.text = hero?.name
         tvDesc.text = hero?.desc
