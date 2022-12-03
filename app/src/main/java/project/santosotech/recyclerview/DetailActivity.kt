@@ -1,21 +1,22 @@
 package project.santosotech.recyclerview
 
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 class DetailActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_NAME = "extra_name"
-        const val EXTRA_DESC = "extra_desc"
-        const val EXTRA_IMAGE = "extra_image"
+        const val EXTRA_KEY = "extra_key"
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -24,17 +25,18 @@ class DetailActivity : AppCompatActivity() {
         val tvDesc: TextView = findViewById(R.id.desc_detail)
         val imgHero: ImageView = findViewById(R.id.img_detail)
 
-        val name = intent.getStringExtra(EXTRA_NAME)
-        val desc = intent.getStringExtra(EXTRA_DESC)
-        val img = intent.getIntExtra(EXTRA_IMAGE, 0)
+        val hero = if (VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra(EXTRA_KEY, Hero::class.java)
+        }else{
+            intent.getParcelableExtra(EXTRA_KEY)
+        }
 
-        supportActionBar?.title = name
-
-        tvName.text = name
-        tvDesc.text = desc
+        tvName.text = hero?.name
+        tvDesc.text = hero?.desc
         Glide.with(this)
-            .load(img)
+            .load(hero?.photo)
             .apply(RequestOptions().override(125, 125))
             .into(imgHero)
     }
+
 }

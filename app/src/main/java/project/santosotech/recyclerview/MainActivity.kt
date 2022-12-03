@@ -41,9 +41,7 @@ class MainActivity : AppCompatActivity() {
     private fun showSelectedHero(data: Hero) {
         Toast.makeText(this, "You Choose " + data.name, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_NAME, data.name)
-        intent.putExtra(DetailActivity.EXTRA_DESC, data.desc)
-        intent.putExtra(DetailActivity.EXTRA_IMAGE, data.photo)
+        intent.putExtra(DetailActivity.EXTRA_KEY, data)
         startActivity(intent)
     }
 }
