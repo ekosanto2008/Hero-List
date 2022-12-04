@@ -1,13 +1,11 @@
 package project.santosotech.recyclerview
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import project.santosotech.recyclerview.databinding.ItemHeroBinding
 
 class HeroAdapter(private val listHero: ArrayList<Hero>) : RecyclerView.Adapter<HeroAdapter.ListViewHolder>() {
 
@@ -18,8 +16,8 @@ class HeroAdapter(private val listHero: ArrayList<Hero>) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_hero, parent, false)
-        return ListViewHolder(view)
+        val binding = ItemHeroBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
@@ -28,10 +26,10 @@ class HeroAdapter(private val listHero: ArrayList<Hero>) : RecyclerView.Adapter<
         Glide.with(holder.itemView.context)
             .load(hero.photo)
             .apply(RequestOptions().override(55,55))
-            .into(holder.imgHero)
+            .into(holder.binding.imgHero)
 
-        holder.tvName.text = hero.name
-        holder.tvDesc.text = hero.desc
+        holder.binding.txtName.text = hero.name
+        holder.binding.txtDetail.text = hero.desc
 
         holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listHero[holder.absoluteAdapterPosition]) }
     }
@@ -40,11 +38,7 @@ class HeroAdapter(private val listHero: ArrayList<Hero>) : RecyclerView.Adapter<
         return listHero.size
     }
 
-    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvName: TextView = itemView.findViewById(R.id.txt_name)
-        var tvDesc: TextView = itemView.findViewById(R.id.txt_detail)
-        var imgHero: ImageView = itemView.findViewById(R.id.img_hero)
-    }
+    inner class ListViewHolder(var binding: ItemHeroBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface OnItemClickCallback {
         fun onItemClicked(data: Hero)
