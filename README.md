@@ -1,5 +1,5 @@
 # Hero-List
-create app hero list
+create app hero list with local data
 - RecyclerView
 - Intent Explicit
 - CardView
